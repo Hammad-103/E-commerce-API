@@ -2,38 +2,33 @@
 
 A production-ready RESTful API for an e-commerce platform built with **Node.js**, **Express**, and **PostgreSQL**. Implements **JWT authentication**, **shopping cart**, **order management**, and **mock payment** with **OWASP Top 10** security compliance.
 
-![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)
-![Express](https://img.shields.io/badge/Express-4.18-blue)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-orange)
-![JWT](https://img.shields.io/badge/JWT-Auth-red)
-![License](https://img.shields.io/badge/License-ISC-yellow)
 
 ---
 
-## 🚀 Features
+##  Features
 
 ### Core Features
-- ✅ **JWT Authentication** with httpOnly cookies (XSS-safe)
-- ✅ **Product Management** (CRUD with search, filter & pagination)
-- ✅ **Shopping Cart** (Add, Update, Remove with real-time stock validation)
-- ✅ **Checkout** (Mock payment ready – can swap with Stripe/Safepay)
-- ✅ **Order Management** (View orders, order history with items)
-- ✅ **Admin Panel** (Product & inventory management)
+-  **JWT Authentication** with httpOnly cookies (XSS-safe)
+-  **Product Management** (CRUD with search, filter & pagination)
+-  **Shopping Cart** (Add, Update, Remove with real-time stock validation)
+-  **Checkout** (Mock payment ready – can swap with Stripe/Safepay)
+-  **Order Management** (View orders, order history with items)
+-  **Admin Panel** (Product & inventory management)
 
 ### Security & Performance
-- ✅ **OWASP Top 10** compliant
-- ✅ **SQL Injection** prevention (parameterized queries)
-- ✅ **Rate Limiting** (100 req/min global, 20 req/min for auth)
-- ✅ **Helmet.js** (14+ security headers)
-- ✅ **CORS** with strict origin whitelist
-- ✅ **BOLA/IDOR** protection (ownership checks on all resources)
-- ✅ **Input Validation & Sanitization** (express-validator)
-- ✅ **Request Size Limiting** (10KB DoS protection)
-- ✅ **Logging** (Winston + Morgan)
+-  **OWASP Top 10** compliant
+-  **SQL Injection** prevention (parameterized queries)
+-  **Rate Limiting** (100 req/min global, 20 req/min for auth)
+-  **Helmet.js** (14+ security headers)
+-  **CORS** with strict origin whitelist
+-  **BOLA/IDOR** protection (ownership checks on all resources)
+-  **Input Validation & Sanitization** (express-validator)
+-  **Request Size Limiting** (10KB DoS protection)
+-  **Logging** (Winston + Morgan)
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -48,43 +43,43 @@ A production-ready RESTful API for an e-commerce platform built with **Node.js**
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ecommerce-api/
 ├── src/
 │   ├── config/
-│   │   └── db.js                  # PostgreSQL connection pool
-│   ├── models/                    # Data Layer (SQL queries)
+│   │   └── db.js                  
+│   ├── models/                    
 │   │   ├── user.model.js
 │   │   ├── product.model.js
 │   │   ├── cart.model.js
 │   │   └── order.model.js
-│   ├── controllers/               # Business Logic
+│   ├── controllers/               
 │   │   ├── auth.controller.js
 │   │   ├── product.controller.js
 │   │   ├── cart.controller.js
 │   │   ├── checkout.controller.js
 │   │   └── order.controller.js
-│   ├── routes/                    # API Endpoints
+│   ├── routes/                    
 │   │   ├── auth.routes.js
 │   │   ├── product.routes.js
 │   │   ├── cart.routes.js
 │   │   ├── checkout.routes.js
 │   │   └── order.routes.js
-│   ├── middleware/                # Middleware
-│   │   ├── auth.js                # JWT verification
-│   │   ├── errorHandler.js        # Central error handler
-│   │   └── validate.js            # Validation handler
+│   ├── middleware/                
+│   │   ├── auth.js                
+│   │   ├── errorHandler.js        
+│   │   └── validate.js            
 │   ├── utils/
-│   │   ├── AppError.js            # Custom error class
-│   │   └── logger.js              # Winston logger
+│   │   ├── AppError.js            
+│   │   └── logger.js              
 │   ├── db/
-│   │   ├── schema.sql             # Database schema
-│   │   └── initDb.js              # Table creation script
-│   ├── app.js                     # Express app
-│   └── index.js                   # Server entry point
-├── .env.example                   # Environment variables template
+│   │   ├── schema.sql             
+│   │   └── initDb.js              
+│   ├── app.js                     
+│   └── index.js                   
+├── .env.example                   
 ├── .gitignore
 ├── package.json
 └── README.md
@@ -92,11 +87,11 @@ ecommerce-api/
 
 ---
 
-## 🔧 Installation & Setup
+##  Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Hammad-103/E-commerce-API.git
 cd ecommerce-api
 ```
 
@@ -137,9 +132,9 @@ Server will run on: `http://localhost:5000`
 
 ---
 
-## 📌 API Endpoints
+##  API Endpoints
 
-### 🔐 Authentication
+###  Authentication
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -148,7 +143,7 @@ Server will run on: `http://localhost:5000`
 | POST | `/api/auth/logout` | Logout (clears cookie) | Auth |
 | GET | `/api/auth/me` | Get current user profile | Auth |
 
-### 🛍️ Products
+###  Products
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -163,7 +158,7 @@ Server will run on: `http://localhost:5000`
 - `page` – Page number (default: 1)
 - `limit` – Items per page (default: 10)
 
-### 🛒 Cart
+###  Cart
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -180,7 +175,7 @@ Server will run on: `http://localhost:5000`
 }
 ```
 
-### 💳 Checkout
+###  Checkout
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -200,7 +195,7 @@ Server will run on: `http://localhost:5000`
 }
 ```
 
-### 📦 Orders
+###  Orders
 
 | Method | Endpoint | Description | Auth |
 |--------|----------|-------------|------|
@@ -213,7 +208,7 @@ Server will run on: `http://localhost:5000`
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ### Default Credentials
 
@@ -243,7 +238,7 @@ npm test
 
 ---
 
-## 🔒 Security Features
+##  Security Features
 
 | Feature | Implementation |
 |---------|----------------|
@@ -261,7 +256,7 @@ npm test
 
 ---
 
-## 🗄️ Database Schema
+##  Database Schema
 
 ### Tables
 
@@ -283,7 +278,7 @@ npm test
 
 ---
 
-## 📝 Environment Variables
+##  Environment Variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
