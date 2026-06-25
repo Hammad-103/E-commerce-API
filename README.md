@@ -1,102 +1,296 @@
-# E-Commerce API
+# 🛒 E-Commerce API
 
-A production-ready RESTful API for an e-commerce platform built with Node.js, Express, and PostgreSQL.
+A production-ready RESTful API for an e-commerce platform built with **Node.js**, **Express**, and **PostgreSQL**. Implements **JWT authentication**, **shopping cart**, **order management**, and **mock payment** with **OWASP Top 10** security compliance.
+
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)
+![Express](https://img.shields.io/badge/Express-4.18-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-orange)
+![JWT](https://img.shields.io/badge/JWT-Auth-red)
+![License](https://img.shields.io/badge/License-ISC-yellow)
+
+---
 
 ## 🚀 Features
 
-- **JWT Authentication** with httpOnly cookies
-- **Product Management** (CRUD with search & pagination)
-- **Shopping Cart** (Add, Update, Remove with stock validation)
-- **Checkout** (Mock payment integration - ready for Stripe/Safepay)
-- **Order Management** (User orders with BOLA protection)
-- **Security**: OWASP Top 10 compliant (Helmet, Rate Limiting, SQL Injection protection, BOLA/IDOR prevention)
-- **Logging**: Winston + Morgan for request/error logging
+### Core Features
+- ✅ **JWT Authentication** with httpOnly cookies (XSS-safe)
+- ✅ **Product Management** (CRUD with search, filter & pagination)
+- ✅ **Shopping Cart** (Add, Update, Remove with real-time stock validation)
+- ✅ **Checkout** (Mock payment ready – can swap with Stripe/Safepay)
+- ✅ **Order Management** (View orders, order history with items)
+- ✅ **Admin Panel** (Product & inventory management)
+
+### Security & Performance
+- ✅ **OWASP Top 10** compliant
+- ✅ **SQL Injection** prevention (parameterized queries)
+- ✅ **Rate Limiting** (100 req/min global, 20 req/min for auth)
+- ✅ **Helmet.js** (14+ security headers)
+- ✅ **CORS** with strict origin whitelist
+- ✅ **BOLA/IDOR** protection (ownership checks on all resources)
+- ✅ **Input Validation & Sanitization** (express-validator)
+- ✅ **Request Size Limiting** (10KB DoS protection)
+- ✅ **Logging** (Winston + Morgan)
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js, Express.js
-- **Database**: PostgreSQL (Neon)
-- **Authentication**: JWT (httpOnly Cookies)
-- **Logging**: Winston, Morgan
-- **Security**: Helmet, CORS, express-rate-limit
+| Layer | Technology |
+|-------|------------|
+| **Backend** | Node.js + Express.js |
+| **Database** | PostgreSQL (Neon) |
+| **Authentication** | JWT + httpOnly Cookies |
+| **Security** | Helmet, CORS, express-rate-limit |
+| **Validation** | express-validator |
+| **Logging** | Winston + Morgan |
+| **Testing** | Jest + Supertest (ready) |
+| **Payments** | Mock (Stripe/Safepay ready) |
+
+---
 
 ## 📁 Project Structure
-src/
-├── config/ # Database configuration
-├── models/ # Data layer (SQL queries)
-├── controllers/ # Business logic
-├── routes/ # API endpoints
-├── middleware/ # Auth, validation, error handling
-├── utils/ # Helpers (AppError, logger)
-└── db/ # Schema and initialization scripts
 
-text
+```
+ecommerce-api/
+├── src/
+│   ├── config/
+│   │   └── db.js                  # PostgreSQL connection pool
+│   ├── models/                    # Data Layer (SQL queries)
+│   │   ├── user.model.js
+│   │   ├── product.model.js
+│   │   ├── cart.model.js
+│   │   └── order.model.js
+│   ├── controllers/               # Business Logic
+│   │   ├── auth.controller.js
+│   │   ├── product.controller.js
+│   │   ├── cart.controller.js
+│   │   ├── checkout.controller.js
+│   │   └── order.controller.js
+│   ├── routes/                    # API Endpoints
+│   │   ├── auth.routes.js
+│   │   ├── product.routes.js
+│   │   ├── cart.routes.js
+│   │   ├── checkout.routes.js
+│   │   └── order.routes.js
+│   ├── middleware/                # Middleware
+│   │   ├── auth.js                # JWT verification
+│   │   ├── errorHandler.js        # Central error handler
+│   │   └── validate.js            # Validation handler
+│   ├── utils/
+│   │   ├── AppError.js            # Custom error class
+│   │   └── logger.js              # Winston logger
+│   ├── db/
+│   │   ├── schema.sql             # Database schema
+│   │   └── initDb.js              # Table creation script
+│   ├── app.js                     # Express app
+│   └── index.js                   # Server entry point
+├── .env.example                   # Environment variables template
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+---
 
 ## 🔧 Installation & Setup
 
-1. Clone the repository:
+### 1. Clone the Repository
 ```bash
 git clone <your-repo-url>
 cd ecommerce-api
-Install dependencies:
+```
 
-bash
+### 2. Install Dependencies
+```bash
 npm install
-Create .env file:
+```
 
-env
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory:
+
+```env
 PORT=5000
 NODE_ENV=development
-DATABASE_URL=postgresql://...
-JWT_SECRET=your_super_secret_key
+DATABASE_URL=postgresql://your_neon_connection_string
+JWT_SECRET=your_super_secret_key_change_this
 COOKIE_DOMAIN=localhost
 LOG_LEVEL=debug
-Initialize database:
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+```
 
-bash
+### 4. Initialize Database
+```bash
 npm run init-db
-Start the server:
+```
+This creates all tables and seeds a default admin user.
 
-bash
+### 5. Start the Server
+```bash
+# Development (with auto-reload)
 npm run dev
-📌 API Endpoints
-Method	Endpoint	Description	Auth
-POST	/api/auth/register	Register new user	Public
-POST	/api/auth/login	Login user	Public
-POST	/api/auth/logout	Logout user	Auth
-GET	/api/auth/me	Get current user	Auth
-GET	/api/products	List products (search/pagination)	Public
-GET	/api/products/:id	Get single product	Public
-POST	/api/products	Create product	Admin
-PATCH	/api/products/:id	Update product	Admin
-DELETE	/api/products/:id	Delete product	Admin
-GET	/api/cart	Get user cart	Auth
-POST	/api/cart/items	Add item to cart	Auth
-PATCH	/api/cart/items/:id	Update cart item	Auth
-DELETE	/api/cart/items/:id	Remove cart item	Auth
-POST	/api/checkout	Place order (Mock Payment)	Auth
-GET	/api/orders	Get user orders	Auth
-GET	/api/orders/:id	Get single order	Auth
-GET	/api/orders/admin/all	Get all orders	Admin
-PATCH	/api/orders/:id/status	Update order status	Admin
-  Testing
-Postman collection is included in /postman-collection.json. Import it to test all endpoints.
 
+# Production
+npm start
+```
 
+Server will run on: `http://localhost:5000`
 
-   Security Features
-JWT stored in httpOnly cookies (XSS protection)
+---
 
-SQL Injection prevention (parameterized queries)
+## 📌 API Endpoints
 
-Rate Limiting (100 requests/15 mins global, 20/15 mins for auth)
+### 🔐 Authentication
 
-Helmet.js for security headers
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/auth/register` | Register new user | Public |
+| POST | `/api/auth/login` | Login (returns httpOnly cookie) | Public |
+| POST | `/api/auth/logout` | Logout (clears cookie) | Auth |
+| GET | `/api/auth/me` | Get current user profile | Auth |
 
-CORS with strict origin whitelist
+### 🛍️ Products
 
-BOLA/IDOR protection (ownership checks on all resources)
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/products` | List products (search + pagination) | Public |
+| GET | `/api/products/:id` | Get single product | Public |
+| POST | `/api/products` | Create product | Admin |
+| PATCH | `/api/products/:id` | Update product | Admin |
+| DELETE | `/api/products/:id` | Delete product | Admin |
 
-Input validation & sanitization (express-validator)
+**Query Parameters** (`GET /api/products`):
+- `search` – Search by name/description
+- `page` – Page number (default: 1)
+- `limit` – Items per page (default: 10)
 
-OWASP Top 10 compliance
+### 🛒 Cart
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/cart` | Get user's cart with items | Auth |
+| POST | `/api/cart/items` | Add item to cart | Auth |
+| PATCH | `/api/cart/items/:id` | Update item quantity | Auth |
+| DELETE | `/api/cart/items/:id` | Remove item from cart | Auth |
+
+**POST Body:**
+```json
+{
+  "productId": 1,
+  "quantity": 2
+}
+```
+
+### 💳 Checkout
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/checkout` | Place order (mock payment) | Auth |
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Order placed successfully (Mock Payment)",
+  "data": {
+    "order_id": 1,
+    "total": "1679.95",
+    "status": "paid",
+    "payment_id": "mock_pay_1719345678_1"
+  }
+}
+```
+
+### 📦 Orders
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/orders` | Get user's orders | Auth |
+| GET | `/api/orders/:id` | Get single order with items | Auth |
+| GET | `/api/orders/admin/all` | Get all orders (admin) | Admin |
+| PATCH | `/api/orders/:id/status` | Update order status | Admin |
+
+**Order Statuses:** `pending`, `paid`, `shipped`, `delivered`, `cancelled`
+
+---
+
+## 🧪 Testing
+
+### Default Credentials
+
+**Admin:**
+```json
+{
+  "email": "admin@admin.com",
+  "password": "admin123"
+}
+```
+
+**Customer:**
+```json
+{
+  "email": "customer@test.com",
+  "password": "Test@1234"
+}
+```
+
+### Postman Collection
+Import `postman-collection.json` (available in the project root) to test all endpoints.
+
+### Run Tests
+```bash
+npm test
+```
+
+---
+
+## 🔒 Security Features
+
+| Feature | Implementation |
+|---------|----------------|
+| Authentication | JWT stored in httpOnly cookies (XSS safe) |
+| SQL Injection | Parameterized queries (`$1, $2`) |
+| Rate Limiting | express-rate-limit (100/15min global, 20/15min auth) |
+| Security Headers | Helmet.js (14+ headers) |
+| CORS | Whitelisted origins only |
+| BOLA/IDOR | Ownership checks on all resources |
+| Input Validation | express-validator with sanitization |
+| Request Size | 10KB limit (DoS protection) |
+| Password Hashing | bcrypt (salt rounds: 10) |
+| Error Handling | No stack traces in production |
+| Logging | Winston (error + combined logs) |
+
+---
+
+## 🗄️ Database Schema
+
+### Tables
+
+| Table | Description |
+|-------|-------------|
+| `users` | User accounts (name, email, password_hash, role) |
+| `products` | Product catalog (name, description, price, stock_quantity) |
+| `carts` | User cart (user_id) |
+| `cart_items` | Cart items (cart_id, product_id, quantity) |
+| `orders` | Order records (user_id, total_amount, status, stripe_payment_id) |
+| `order_items` | Order line items (order_id, product_id, quantity, price_at_purchase) |
+
+### Database Indexes
+- `idx_users_email` – Fast email lookup
+- `idx_products_name` – Product search performance
+- `idx_carts_user_id` – Quick cart retrieval
+- `idx_orders_user_id` – User order history
+- `idx_order_items_order_id` – Order details joins
+
+---
+
+## 📝 Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | 5000 |
+| `NODE_ENV` | Environment (development/production) | development |
+| `DATABASE_URL` | Neon PostgreSQL connection string | Required |
+| `JWT_SECRET` | JWT signing secret (min 32 chars) | Required |
+| `COOKIE_DOMAIN` | Cookie domain | localhost |
+| `LOG_LEVEL` | Log level (debug/info/error) | debug |
+| `CORS_ORIGIN` | Allowed origins (comma-separated) | http://localhost:5173 |
