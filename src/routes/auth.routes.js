@@ -10,8 +10,11 @@ router.post(
   '/register',
   validate([
     body('name').notEmpty().withMessage('Name is required'),
-    body('email').isEmail().withMessage('Valid email is required'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
+    body('password')
+      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+      .withMessage('Password must contain uppercase, lowercase, number and special character'),
   ]),
   authController.register
 );
@@ -19,7 +22,7 @@ router.post(
 router.post(
   '/login',
   validate([
-    body('email').isEmail().withMessage('Valid email is required'),
+    body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
     body('password').notEmpty().withMessage('Password is required'),
   ]),
   authController.login
