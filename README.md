@@ -1,4 +1,4 @@
-# 🛒 E-Commerce API
+#  E-Commerce API
 
 A production-ready RESTful API for an e-commerce platform built with **Node.js**, **Express**, and **PostgreSQL**. Implements **JWT authentication**, **shopping cart**, **order management**, and **mock payment** with **OWASP Top 10** security compliance.
 
